@@ -196,7 +196,7 @@ def main():
     st.markdown("""
     <hr>
     <div style='text-align: center;'>
-    ⓒ 2025 - Data Cleaning App | Dibuat dengan ❤️ oleh abu aisy
+    ⓒ 2025 - Data Cleaning App | Dibuat dengan ❤️ by Tim Litbang IHBS
     </div>
     """, unsafe_allow_html=True)
 
