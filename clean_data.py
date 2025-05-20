@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
+import io  
 import datetime
 import json
 from scipy import stats
@@ -78,14 +79,28 @@ def clean_data(df):
     return df
 
 # Fungsi untuk ekspor data
+# Fungsi untuk ekspor data
 def export_data(df):
     st.subheader("📤 Ekspor Data")
     export_type = st.radio("Pilih format ekspor", ["CSV", "Excel"])
-    if export_type == "CSV":
-        st.download_button("⬇️ Unduh CSV", df.to_csv(index=False), "data.csv", "text/csv")
-    elif export_type == "Excel":
-        st.download_button("⬇️ Unduh Excel", df.to_excel(index=False, engine='openpyxl'), "data.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
+    if export_type == "CSV":
+        st.download_button(
+            "⬇️ Unduh CSV", 
+            data=df.to_csv(index=False), 
+            file_name="data.csv", 
+            mime="text/csv"
+        )
+    elif export_type == "Excel":
+        output = io.BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False)
+        st.download_button(
+            "⬇️ Unduh Excel",
+            data=output.getvalue(),
+            file_name="data.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 # Fungsi dashboard dan saran analisis
 def show_dashboard(df):
     st.title("📈 Dashboard Statistik & Informasi Dataset")
